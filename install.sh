@@ -39,7 +39,7 @@ install_pkgs() {
   local pkgs="$1"
   [[ -z "$pkgs" ]] && return
   echo "  → Installing: $pkgs"
-  yay -S --needed --noconfirm $pkgs 2>/dev/null || true
+  yay -S --needed --noconfirm $pkgs || true
 }
 
 prompt_yn() {
@@ -53,15 +53,15 @@ prompt_yn() {
 
 # ── Stow targets per directory ────────────────────────────────────────────
 declare -A STOW_TARGETS=(
-  [hypr]="$HOME/.config"
-  [quickshell]="$HOME/.config"
-  [ghostty]="$HOME/.config"
-  [fastfetch]="$HOME/.config"
+  [hypr]="$HOME/.config/hypr"
+  [quickshell]="$HOME/.config/quickshell"
+  [ghostty]="$HOME/.config/ghostty"
+  [fastfetch]="$HOME/.config/fastfetch"
   [matugen]="$HOME/.config"
-  [scripts]="$HOME/.config"
+  [scripts]="$HOME/.config/scripts"
   [system]="$HOME/.config"
   [profiles]="$HOME/.config"
-  [nvim]="$HOME/.config"
+  [nvim]="$HOME/.config/nvim"
   [zsh]="$HOME"
   [sddm]=""  # handled separately
 )
