@@ -6,69 +6,92 @@ import "modules" as Modules
 
 Window {
   id: helpWindow
-  width: 600
+  width: 640
   height: 500
 
   Rectangle {
     anchors.fill: parent
-    color: Modules.ThemeEngine.surface
+    color: Qt.hsla(0, 0, 0, 0.88)
     radius: 10
 
     ColumnLayout {
       anchors.fill: parent
-      anchors.margins: 16
-      spacing: 8
+      anchors.margins: 20
+      spacing: 12
 
       Text {
         text: "Keybinds & Help"
         color: Modules.ThemeEngine.onSurface
-        font.pixelSize: 20
+        font.pixelSize: 22
         font.bold: true
       }
 
       ListView {
+        id: keybindList
         Layout.fillWidth: true
         Layout.fillHeight: true
         clip: true
-        model: ListModel {
-          ListElement { keys: "Super+Return"; desc: "Open terminal" }
-          ListElement { keys: "Super+D"; desc: "App launcher" }
-          ListElement { keys: "Super+A"; desc: "Overview" }
-          ListElement { keys: "Super+N"; desc: "Notification center" }
-          ListElement { keys: "Super+H"; desc: "Help menu" }
-          ListElement { keys: "Super+W"; desc: "Wallpaper chooser" }
-          ListElement { keys: "Super+,"; desc: "Settings" }
-          ListElement { keys: "Super+1-0"; desc: "Switch workspace" }
-          ListElement { keys: "Super+Q"; desc: "Close window" }
-          ListElement { keys: "Super+F"; desc: "Toggle fullscreen" }
-          ListElement { keys: "Super+Space"; desc: "Toggle float" }
-          ListElement { keys: "Super+E"; desc: "File manager" }
-          ListElement { keys: "Super+Shift+P"; desc: "Cycle power profile" }
-          ListElement { keys: "Print"; desc: "Screenshot area" }
-        }
+        spacing: 2
+        model: keybindModel
         delegate: Rectangle {
           width: parent.width
-          height: 32
-          color: "transparent"
+          height: 36
+          color: index % 2 === 0 ? Qt.hsla(0, 0, 0, 0.15) : "transparent"
+          radius: 4
           RowLayout {
             anchors.fill: parent
+            anchors.margins: 8
             spacing: 16
             Text {
-              Layout.preferredWidth: 200
-              text: keys
-              color: Modules.ThemeEngine.primary
-              font.family: "monospace"
-              font.pixelSize: 13
+              Layout.preferredWidth: 220
+              text: model.group ? ("\u2501 " + model.group) : model.keys
+              color: model.group ? Modules.ThemeEngine.primary : Modules.ThemeEngine.onSurface
+              font.family: model.group ? "sans-serif" : "monospace"
+              font.pixelSize: model.group ? 14 : 12
+              font.bold: model.group ? true : false
             }
             Text {
               Layout.fillWidth: true
-              text: desc
-              color: Modules.ThemeEngine.onSurface
-              font.pixelSize: 13
+              text: model.desc
+              color: model.group ? Modules.ThemeEngine.primary : Modules.ThemeEngine.onSurfaceVariant
+              font.pixelSize: 12
             }
           }
         }
       }
     }
   }
+
+  // Load keybinds from keybinds.json
+  property var keybindModel: ListModel {}
+
+  function loadKeybinds() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "../keybinds.json", false);
+    try {
+      xhr.send();
+      if (xhr.status === 0 || xhr.status === 200) {
+        var data = JSON.parse(xhr.responseText);
+        keybindModel.clear();
+        for (var g = 0; g < data.groups.length; g++) {
+          var group = data.groups[g];
+          keybindModel.append({ keys: "", desc: "", group: group.name });
+          for (var b = 0; b < group.binds.length; b++) {
+            var bind = group.binds[b];
+            var keysStr = bind.keys.map(function(k) {
+              return k.charAt(0).toUpperCase() + k.slice(1).toLowerCase();
+            }).join("+");
+            keybindModel.append({ keys: keysStr, desc: bind.desc, group: "" });
+          }
+        }
+      }
+    } catch (e) {
+      console.log("HelpMenu: could not load keybinds.json");
+      keybindModel.append({ keys: "failed to load", desc: "keybinds.json not found", group: "" });
+    }
+  }
+
+  Component.onCompleted: loadKeybinds()
+
+  Keys.onEscapePressed: { helpWindow.visible = false }
 }
