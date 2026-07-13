@@ -20,6 +20,7 @@ AUR="yay"
 echo "Using package manager: $AUR"
 
 # ── Parse packages.txt ─────────────────────────────────────────────────
+unset GROUPS
 declare -A GROUPS
 GROUP=""
 while IFS= read -r line; do
