@@ -69,15 +69,17 @@ declare -A STOW_TARGETS=(
 stow_dir() {
   local dir="$1"
   local target="${STOW_TARGETS[$dir]:-}"
-  if [[ -z "$target" ]]; then
-    echo "  Skipping stow for $dir (no target defined)"
-    return
-  fi
-  if [[ -d "$ROOT/$dir" ]]; then
-    mkdir -p "$target"
-    stow -R --target="$target" -d "$ROOT" "$dir" 2>/dev/null || \
-      stow --target="$target" -d "$ROOT" "$dir"
-  fi
+  [[ -z "$target" ]] && { echo "  Skipping stow for $dir (no target defined)"; return; }
+  [[ ! -d "$ROOT/$dir" ]] && return
+  mkdir -p "$target"
+  find "$ROOT/$dir" -type f | while IFS= read -r src; do
+    local rel="${src#$ROOT/$dir/}"
+    if [[ -f "$target/$rel" && ! -L "$target/$rel" ]]; then
+      echo "  Removing conflicting: $target/$rel"
+      rm -f "$target/$rel"
+    fi
+  done
+  stow -R --target="$target" -d "$ROOT" "$dir" 2>/dev/null || true
 }
 
 # ── Install core ──────────────────────────────────────────────────────────
