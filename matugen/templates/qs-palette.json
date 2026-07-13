@@ -1,0 +1,20 @@
+{
+  "colorScheme": "{{scheme_type}}",
+  "primary": "{{colors.primary.default.hex}}",
+  "onPrimary": "{{colors.onPrimary.default.hex}}",
+  "primaryContainer": "{{colors.primaryContainer.default.hex}}",
+  "onPrimaryContainer": "{{colors.onPrimaryContainer.default.hex}}",
+  "secondary": "{{colors.secondary.default.hex}}",
+  "onSecondary": "{{colors.onSecondary.default.hex}}",
+  "secondaryContainer": "{{colors.secondaryContainer.default.hex}}",
+  "onSecondaryContainer": "{{colors.onSecondaryContainer.default.hex}}",
+  "surface": "{{colors.surface.default.hex}}",
+  "onSurface": "{{colors.onSurface.default.hex}}",
+  "surfaceVariant": "{{colors.surfaceVariant.default.hex}}",
+  "onSurfaceVariant": "{{colors.onSurfaceVariant.default.hex}}",
+  "background": "{{colors.background.default.hex}}",
+  "onBackground": "{{colors.onBackground.default.hex}}",
+  "error": "{{colors.error.default.hex}}",
+  "onError": "{{colors.onError.default.hex}}",
+  "outline": "{{colors.outline.default.hex}}"
+}
