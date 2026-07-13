@@ -1,0 +1,80 @@
+{
+  "info": "Keybind source of truth. Generated binds: dispatch to hyprctl. Help menu reads this.",
+  "mod": "SUPER",
+  "groups": [
+    {
+      "name": "General",
+      "binds": [
+        { "keys": ["SUPER", "Return"], "action": "exec ghostty", "desc": "Open terminal" },
+        { "keys": ["SUPER", "Q"], "action": "killactive", "desc": "Close active window" },
+        { "keys": ["SUPER", "F"], "action": "fullscreen", "desc": "Toggle fullscreen" },
+        { "keys": ["SUPER", "D"], "action": "exec quickshell-toggle AppSearch", "desc": "App launcher" },
+        { "keys": ["SUPER", "A"], "action": "exec quickshell-toggle Overview", "desc": "Overview" },
+        { "keys": ["SUPER", "N"], "action": "exec quickshell-toggle NotificationCenter", "desc": "Notification center" },
+        { "keys": ["SUPER", "H"], "action": "exec quickshell-toggle Help", "desc": "Help / keybinds" },
+        { "keys": ["SUPER", "comma"], "action": "exec quickshell-toggle Settings", "desc": "Settings" },
+        { "keys": ["SUPER", "W"], "action": "exec quickshell-toggle WallpaperPicker", "desc": "Wallpaper chooser" },
+        { "keys": ["SUPER", "Shift", "P"], "action": "exec tuned.sh cycle", "desc": "Cycle power profile" },
+        { "keys": ["Print"], "action": "exec grim -g \"$(slurp)\" - | satty -f -", "desc": "Screenshot area" }
+      ]
+    },
+    {
+      "name": "Workspaces",
+      "binds": [
+        { "keys": ["SUPER", "1"], "action": "workspace 1", "desc": "Workspace 1" },
+        { "keys": ["SUPER", "2"], "action": "workspace 2", "desc": "Workspace 2" },
+        { "keys": ["SUPER", "3"], "action": "workspace 3", "desc": "Workspace 3" },
+        { "keys": ["SUPER", "4"], "action": "workspace 4", "desc": "Workspace 4" },
+        { "keys": ["SUPER", "5"], "action": "workspace 5", "desc": "Workspace 5" },
+        { "keys": ["SUPER", "6"], "action": "workspace 6", "desc": "Workspace 6" },
+        { "keys": ["SUPER", "7"], "action": "workspace 7", "desc": "Workspace 7" },
+        { "keys": ["SUPER", "8"], "action": "workspace 8", "desc": "Workspace 8" },
+        { "keys": ["SUPER", "9"], "action": "workspace 9", "desc": "Workspace 9" },
+        { "keys": ["SUPER", "0"], "action": "workspace 10", "desc": "Workspace 10" },
+        { "keys": ["SUPER", "Shift", "1"], "action": "movetoworkspace 1", "desc": "Move to workspace 1" },
+        { "keys": ["SUPER", "Shift", "2"], "action": "movetoworkspace 2", "desc": "Move to workspace 2" },
+        { "keys": ["SUPER", "Shift", "3"], "action": "movetoworkspace 3", "desc": "Move to workspace 3" },
+        { "keys": ["SUPER", "Shift", "4"], "action": "movetoworkspace 4", "desc": "Move to workspace 4" },
+        { "keys": ["SUPER", "Shift", "5"], "action": "movetoworkspace 5", "desc": "Move to workspace 5" },
+        { "keys": ["SUPER", "Shift", "6"], "action": "movetoworkspace 6", "desc": "Move to workspace 6" },
+        { "keys": ["SUPER", "Shift", "7"], "action": "movetoworkspace 7", "desc": "Move to workspace 7" },
+        { "keys": ["SUPER", "Shift", "8"], "action": "movetoworkspace 8", "desc": "Move to workspace 8" },
+        { "keys": ["SUPER", "Shift", "9"], "action": "movetoworkspace 9", "desc": "Move to workspace 9" },
+        { "keys": ["SUPER", "Shift", "0"], "action": "movetoworkspace 10", "desc": "Move to workspace 10" }
+      ]
+    },
+    {
+      "name": "Windows",
+      "binds": [
+        { "keys": ["SUPER", "Shift", "Q"], "action": "exit", "desc": "Exit Hyprland" },
+        { "keys": ["SUPER", "Tab"], "action": "focuscurrentorlast", "desc": "Focus last window" },
+        { "keys": ["SUPER", "h"], "action": "movefocus l", "desc": "Focus left" },
+        { "keys": ["SUPER", "j"], "action": "movefocus d", "desc": "Focus down" },
+        { "keys": ["SUPER", "k"], "action": "movefocus u", "desc": "Focus up" },
+        { "keys": ["SUPER", "l"], "action": "movefocus r", "desc": "Focus right" },
+        { "keys": ["SUPER", "Shift", "h"], "action": "movewindow l", "desc": "Move window left" },
+        { "keys": ["SUPER", "Shift", "j"], "action": "movewindow d", "desc": "Move window down" },
+        { "keys": ["SUPER", "Shift", "k"], "action": "movewindow u", "desc": "Move window up" },
+        { "keys": ["SUPER", "Shift", "l"], "action": "movewindow r", "desc": "Move window right" }
+      ]
+    },
+    {
+      "name": "Media & Volume",
+      "binds": [
+        { "keys": ["XF86AudioRaiseVolume"], "action": "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+", "desc": "Volume up" },
+        { "keys": ["XF86AudioLowerVolume"], "action": "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-", "desc": "Volume down" },
+        { "keys": ["XF86AudioMute"], "action": "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle", "desc": "Toggle mute" },
+        { "keys": ["XF86AudioPlay"], "action": "exec playerctl play-pause", "desc": "Play/Pause" },
+        { "keys": ["XF86AudioNext"], "action": "exec playerctl next", "desc": "Next track" },
+        { "keys": ["XF86AudioPrev"], "action": "exec playerctl previous", "desc": "Previous track" }
+      ]
+    },
+    {
+      "name": "Brightness",
+      "binds": [
+        { "keys": ["XF86MonBrightnessUp"], "action": "exec brightnessctl s 5%+", "desc": "Brightness up" },
+        { "keys": ["XF86MonBrightnessDown"], "action": "exec brightnessctl s 5%-", "desc": "Brightness down" }
+      ]
+    }
+  ]
+}

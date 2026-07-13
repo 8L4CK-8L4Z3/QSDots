@@ -1,0 +1,26 @@
+# Secrets — DO NOT COMMIT
+zsh/secrets
+ghostty/secrets
+.env
+*.token
+
+# Editor temp files
+*.swp
+*.swo
+*~
+*.bak
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tags
+tags
+TAGS
+GTAGS
+GRTAGS
+GPATH
+
+# Cache
+__pycache__/
+*.pyc

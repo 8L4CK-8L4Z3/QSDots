@@ -1,0 +1,14 @@
+QSDotfiles uses code, ideas, and design patterns from the following projects:
+
+- **caelestia-dots** by ItsABigIgloo (https://github.com/ItsABigIgloo/caelestia-sddm)
+  GPL-3.0 — Quickshell shell QML, MaterialThemeLoader, ConfigLoader, overview, app search
+- **JaKooLit** modular dotfiles (https://github.com/JaKooLit)
+  GPL-3.0 — modular Hyprland config structure, simple-sddm-2 theme, tuned keybinds approach
+- **Hyprland** (https://github.com/hyprwm/Hyprland)
+  BSD-3-Clause — window manager
+- **Quickshell** (https://github.com/outfoxxed/quickshell)
+  LGPL-2.1 — QML shell engine
+- **matugen** (https://github.com/InioX/matugen)
+  MIT — Material You color generation
+
+See NOTICE for additional attribution details.

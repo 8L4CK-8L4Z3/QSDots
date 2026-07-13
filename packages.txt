@@ -1,0 +1,86 @@
+# QSDotfiles — Package groups
+# Core is always installed; optional groups are prompted during install.sh
+
+[CORE]
+hyprland
+hyprcursor
+hypridle
+hyprlock
+uwsm
+quickshell
+xdg-desktop-portal-hyprland
+matugen
+swww
+ghostty
+zsh
+neovim
+fastfetch
+
+# Fonts
+bibata-cursor-theme
+noto-fonts
+noto-fonts-emoji
+otf-font-awesome
+ttf-cascadia-mono-nerd
+
+# Auth / Policy
+gnome-keyring
+polkit-gnome
+ufw
+
+# Utilities
+git
+fzf
+fd
+ripgrep
+eza
+bat
+btop
+zoxide
+jq
+starship
+
+# Screenshots
+grim
+slurp
+satty
+
+# Audio
+pamixer
+wireplumber
+
+# Bluetooth
+bluez
+bluez-libs
+bluez-utils
+
+# Apps
+nemo
+zen-browser-bin
+zed
+swaync
+
+[OPTIONAL]
+# keybinds — Hyprland keybinding config (includes help-menu binds)
+keybinds = hyprland keybinds
+
+# power — tuned power-profiles
+power = tuned
+
+# sddm — pick one: none, caelestia, simple
+sddm-none =
+sddm-caelestia = caelestia-sddm-locklike-git
+sddm-simple = simple-sddm-theme-2-git
+
+# profiles — theme/profile sets (caelestia, jakoolit)
+profiles-caelestia =
+profiles-jakoolit =
+
+# qt-theming — Qt app theming via Kvantum
+qt-theming = kvantum qt6ct
+
+# gtk-theming — GTK app theming & display config
+gtk-theming = nwg-look nwg-displays
+
+# apps — additional optional applications
+apps = lazygit visual-studio-code-bin
