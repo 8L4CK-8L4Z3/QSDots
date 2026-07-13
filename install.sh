@@ -25,9 +25,9 @@ echo "Using package manager: $AUR"
 declare -A GROUPS
 GROUP=""
 while IFS= read -r line; do
-  line="${line%%#*}" # strip comments
-  line="${line## *}"
-  line="${line%% *}"
+  line="${line%%#*}"
+  line="${line## }"
+  line="${line%% }"
   [[ -z "$line" ]] && continue
   if [[ "$line" =~ ^\[(.*)\]$ ]]; then
     GROUP="${BASH_REMATCH[1]}"
@@ -56,6 +56,35 @@ prompt_yn() {
   [[ "$ans" =~ ^[Yy] ]]
 }
 
+# ── Stow targets per directory ────────────────────────────────────────────
+declare -A STOW_TARGETS=(
+  [hypr]="$HOME/.config"
+  [quickshell]="$HOME/.config"
+  [ghostty]="$HOME/.config"
+  [fastfetch]="$HOME/.config"
+  [matugen]="$HOME/.config"
+  [scripts]="$HOME/.config"
+  [system]="$HOME/.config"
+  [profiles]="$HOME/.config"
+  [nvim]="$HOME/.config"
+  [zsh]="$HOME"
+  [sddm]=""  # handled separately
+)
+
+stow_dir() {
+  local dir="$1"
+  local target="${STOW_TARGETS[$dir]:-}"
+  if [[ -z "$target" ]]; then
+    echo "  Skipping stow for $dir (no target defined)"
+    return
+  fi
+  if [[ -d "$ROOT/$dir" ]]; then
+    mkdir -p "$target"
+    stow -R --target="$target" -d "$ROOT" "$dir" 2>/dev/null || \
+      stow --target="$target" -d "$ROOT" "$dir"
+  fi
+}
+
 # ── Install core ──────────────────────────────────────────────────────────
 echo ""
 echo "╔══════════════════════════════════════╗"
@@ -66,23 +95,18 @@ echo "Installing CORE packages (always)..."
 install_pkgs "${GROUPS[CORE]:-}"
 
 # ── Optional groups ───────────────────────────────────────────────────────
-OPTIONAL_KEYS=()
-while IFS='=' read -r key val; do
-  [[ -z "$key" ]] && continue
-  OPTIONAL_KEYS+=("$key")
-done < <(grep '^[a-z]' packages.txt | grep '=' | head -20)
-
-# keybinds
 if prompt_yn "Install keybinds?"; then
-  echo "  (keybinds config included — no extra packages)"
+  echo "  (keybinds config included)"
+  INSTALL_KEYBINDS=true
+else
+  INSTALL_KEYBINDS=false
 fi
 
-# power
 if prompt_yn "Install tuned (power profiles)?"; then
   install_pkgs "tuned"
+  sudo systemctl enable --now tuned 2>/dev/null || true
 fi
 
-# sddm
 echo ""
 echo "SDDM variants:"
 echo "  0) None (skip)"
@@ -95,7 +119,6 @@ case "$sddm_choice" in
   2) install_pkgs "simple-sddm-theme-2-git" ;;
 esac
 
-# profiles
 echo ""
 echo "Theme/Profile variants:"
 echo "  0) None"
@@ -104,24 +127,15 @@ echo "  2) jakoolit"
 echo "  3) both"
 read -rp "Choose [0-3] (default 0): " profile_choice
 profile_choice="${profile_choice:-0}"
-case "$profile_choice" in
-  1|3) echo "  (caelestia profile selected)" ;;
-esac
-case "$profile_choice" in
-  2|3) echo "  (jakoolit profile selected)" ;;
-esac
 
-# qt-theming
 if prompt_yn "Install Qt theming (Kvantum + qt6ct)?"; then
   install_pkgs "kvantum qt6ct"
 fi
 
-# gtk-theming
 if prompt_yn "Install GTK theming helpers (nwg-look + nwg-displays)?"; then
   install_pkgs "nwg-look nwg-displays"
 fi
 
-# apps
 if prompt_yn "Install extra apps (lazygit, vscode)?"; then
   install_pkgs "lazygit visual-studio-code-bin"
 fi
@@ -129,12 +143,24 @@ fi
 # ── Stow symlinks ─────────────────────────────────────────────────────────
 echo ""
 echo "Setting up Stow symlinks..."
-STOW_DIRS=(hypr quickshell matugen ghostty zsh fastfetch scripts system profiles)
-for dir in "${STOW_DIRS[@]}"; do
-  if [[ -d "$ROOT/$dir" ]]; then
-    stow -R --target="$HOME" -d "$ROOT" "$dir" 2>/dev/null || stow --target="$HOME" -d "$ROOT" "$dir"
+for dir in "${!STOW_TARGETS[@]}"; do
+  if [[ "$dir" == "sddm" && "$sddm_choice" -eq 0 ]]; then
+    continue
   fi
+  stow_dir "$dir"
 done
+
+# Handle sddm separately (needs root)
+if [[ "$sddm_choice" -ne 0 ]]; then
+  echo ""
+  echo "SDDM theme: sudo stow to /etc/sddm.conf.d/"
+  sudo stow -R --target="/etc/sddm.conf.d" -d "$ROOT" "sddm" 2>/dev/null || echo "  (skipped — run manually: sudo stow -t /etc/sddm.conf.d -d $ROOT sddm)"
+fi
+
+# ── Post-install ──────────────────────────────────────────────────────────
+if [[ "$INSTALL_KEYBINDS" == "true" ]]; then
+  echo "  Keybinds active: check ~/.config/hypr/UserConfigs/UserKeybinds.conf"
+fi
 
 echo ""
 echo "╔══════════════════════════════════════╗"
@@ -143,6 +169,7 @@ echo "╚═══════════════════════�
 echo "Reboot or restart Hyprland to apply."
 echo ""
 echo "Post-install tips:"
-echo "  - Set wallpaper:  swww img ~/Pictures/Wallpapers/your-wallpaper.png"
-echo "  - Regenerate theme: matugen image ~/Pictures/Wallpapers/your-wallpaper.png"
+echo "  - Set wallpaper:  ${HOME}/.config/scripts/set-wallpaper.sh ~/P/Wallpapers/your-image.png"
+echo "  - Regenerate theme: matugen image ~/Pictures/Wallpapers/your-image.png"
 echo "  - Edit keybinds:   ~/.config/hypr/UserConfigs/UserKeybinds.conf"
+echo "  - Run vm-mode:     ~/.config/hypr/scripts/vm-mode.sh"
