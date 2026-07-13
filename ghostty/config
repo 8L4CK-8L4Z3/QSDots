@@ -1,0 +1,14 @@
+# QSDotfiles Ghostty config
+background-opacity = 0.4
+background = #000000
+cursor-style = block
+font-family = CaskaydiaCove Nerd Font Mono
+font-size = 11
+
+# Custom shader (cursor blaze effect) — optional, put cursor_blaze.glsl in ghostty/shaders/
+# custom-shader = shaders/cursor_blaze.glsl
+# custom-shader-animation = true
+
+# Theme colors — overridden by matugen-generated theme on startup
+# palette = 0=#000000
+# palette = 7=#ffffff

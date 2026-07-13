@@ -1,0 +1,10 @@
+# QSDotfiles — default applications
+[Default Applications]
+x-scheme-handler/http=zen.desktop
+x-scheme-handler/https=zen.desktop
+text/html=zen.desktop
+application/pdf=org.gnome.Evince.desktop
+image/png=org.gnome.Loupe.desktop
+image/jpeg=org.gnome.Loupe.desktop
+inode/directory=nemo.desktop
+text/plain=nvim.desktop
