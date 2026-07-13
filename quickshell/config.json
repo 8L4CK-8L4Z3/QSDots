@@ -1,0 +1,33 @@
+{
+  "ui": {
+    "theme": "dark",
+    "scale": 1
+  },
+  "features": {
+    "animations": true
+  },
+  "bar": {
+    "bottom": false
+  },
+  "overview": {
+    "numOfRows": 2,
+    "numOfCols": 5,
+    "showXwaylandIndicator": false,
+    "windowPadding": 6,
+    "position": 1
+  },
+  "font": {
+    "family": {
+      "uiFont": "CaskaydiaCove Nerd Font",
+      "iconFont": "CaskaydiaCove Nerd Font",
+      "codeFont": "CaskaydiaCove Nerd Font Mono"
+    },
+    "pixelSize": {
+      "textSmall": 11,
+      "textBase": 13,
+      "textMedium": 15,
+      "textLarge": 18,
+      "iconLarge": 20
+    }
+  }
+}

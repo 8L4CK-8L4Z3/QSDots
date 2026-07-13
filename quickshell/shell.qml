@@ -6,12 +6,17 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
-import "modules" as Modules
+import "root:/modules/" as M
+import "root:/modules/widgets/" as W
 
 ShellRoot {
-  property Modules.ThemeEngine theme: Modules.ThemeEngine {}
+  property M.ThemeEngine themeEngine: M.ThemeEngine {}
 
   Component.onCompleted: {
+    // Initialize theme and config
+    M.ThemeEngine.reapplyTheme();
+
+    // Register global shortcuts
     Quickshell.registerGlobalShortcut("quickshell:appSearch", () => { appSearch.visible = !appSearch.visible; });
     Quickshell.registerGlobalShortcut("quickshell:overviewToggle", () => { overview.visible = !overview.visible; });
     Quickshell.registerGlobalShortcut("quickshell:notificationCenter", () => { notifCenter.visible = !notifCenter.visible; });
@@ -22,6 +27,7 @@ ShellRoot {
     Quickshell.registerGlobalShortcut("quickshell:calculator", () => { calculator.visible = !calculator.visible; });
   }
 
+  // All component instances
   BarWidget { id: bar }
   AppSearchWidget { id: appSearch; visible: false }
   OverviewWidget { id: overview; visible: false }

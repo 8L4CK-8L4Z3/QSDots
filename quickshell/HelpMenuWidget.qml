@@ -2,7 +2,8 @@ import Quickshell
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import "modules" as Modules
+import "root:/modules/" as M
+import "root:/modules/widgets/" as W
 
 Window {
   id: helpWindow
@@ -12,17 +13,16 @@ Window {
   Rectangle {
     anchors.fill: parent
     color: Qt.hsla(0, 0, 0, 0.88)
-    radius: 10
+    radius: M.Appearance.rounding.normal
 
     ColumnLayout {
       anchors.fill: parent
       anchors.margins: 20
       spacing: 12
 
-      Text {
+      W.StyledText {
         text: "Keybinds & Help"
-        color: Modules.ThemeEngine.onSurface
-        font.pixelSize: 22
+        font.pixelSize: M.Appearance.font.pixelSize.textLarge
         font.bold: true
       }
 
@@ -37,24 +37,22 @@ Window {
           width: parent.width
           height: 36
           color: index % 2 === 0 ? Qt.hsla(0, 0, 0, 0.15) : "transparent"
-          radius: 4
+          radius: M.Appearance.rounding.unsharpen
           RowLayout {
-            anchors.fill: parent
-            anchors.margins: 8
-            spacing: 16
-            Text {
+            anchors.fill: parent; anchors.margins: 8; spacing: 16
+            W.StyledText {
               Layout.preferredWidth: 220
               text: model.group ? ("\u2501 " + model.group) : model.keys
-              color: model.group ? Modules.ThemeEngine.primary : Modules.ThemeEngine.onSurface
-              font.family: model.group ? "sans-serif" : "monospace"
-              font.pixelSize: model.group ? 14 : 12
+              color: model.group ? M.Appearance.m3colors.m3accentPrimary : M.Appearance.m3colors.m3primaryText
+              font.family: model.group ? M.Appearance.font.family.uiFont : M.Appearance.font.family.codeFont
+              font.pixelSize: model.group ? M.Appearance.font.pixelSize.textMedium : M.Appearance.font.pixelSize.textBase
               font.bold: model.group ? true : false
             }
-            Text {
+            W.StyledText {
               Layout.fillWidth: true
               text: model.desc
-              color: model.group ? Modules.ThemeEngine.primary : Modules.ThemeEngine.onSurfaceVariant
-              font.pixelSize: 12
+              color: model.group ? M.Appearance.m3colors.m3accentPrimary : M.Appearance.m3colors.m3secondaryText
+              font.pixelSize: M.Appearance.font.pixelSize.textBase
             }
           }
         }
@@ -62,7 +60,6 @@ Window {
     }
   }
 
-  // Load keybinds from keybinds.json
   property var keybindModel: ListModel {}
 
   function loadKeybinds() {
@@ -92,6 +89,5 @@ Window {
   }
 
   Component.onCompleted: loadKeybinds()
-
   Keys.onEscapePressed: { helpWindow.visible = false }
 }

@@ -3,23 +3,19 @@ import Quickshell.Wayland
 import Quickshell.Hyprland
 import QtQuick
 import QtQuick.Layouts
-import "modules" as Modules
+import "root:/modules/" as M
+import "root:/modules/widgets/" as W
 
 LayerShellWindow {
   id: barWindow
-
-  anchors {
-    left: true
-    right: true
-    top: true
-  }
-
+  anchors { left: true; right: true; top: true }
   exclusionMode: LayerShellExclusionMode.Exclusive
   layer: LayerShellLayer.Top
-  height: 36
+  height: M.Appearance.sizes.barHeight
 
   background: Rectangle {
-    color: Qt.hsla(0, 0, 0, 0.75)
+    color: M.Appearance.m3colors.m3windowBackground
+    opacity: 0.85
   }
 
   RowLayout {
@@ -30,39 +26,39 @@ LayerShellWindow {
     // Workspace pips
     Row {
       Layout.alignment: Qt.AlignLeft
-      spacing: 2
+      spacing: 3
       Repeater {
         model: Hyprland.workspaces
         Rectangle {
-          width: 8
-          height: 8
-          radius: 4
-          color: modelData.active ? "#bb86fc" : "#555"
+          width: 8; height: 8; radius: 4
+          color: modelData.active
+            ? M.Appearance.m3colors.m3accentPrimary
+            : M.Appearance.m3colors.m3borderSecondary
         }
       }
     }
 
-    // Active window title
-    Text {
+    // Active window title (using StyledText)
+    W.StyledText {
       Layout.alignment: Qt.AlignLeft
       Layout.fillWidth: true
       Layout.maximumWidth: 400
       text: Hyprland.focusedWindow?.title ?? ""
-      color: "white"
-      font.pixelSize: 12
+      font.pixelSize: M.Appearance.font.pixelSize.textSmall
       elide: Text.ElideRight
     }
 
-    // Clock
-    Text {
+    // Fixed icons using MaterialSymbol
+    W.MaterialSymbol { text: ""; iconSize: M.Appearance.font.pixelSize.iconLarge }  // volume
+    W.MaterialSymbol { text: ""; iconSize: M.Appearance.font.pixelSize.iconLarge }  // battery
+
+    // Clock (using StyledText with smaller size)
+    W.StyledText {
       Layout.alignment: Qt.AlignRight
       text: new Date().toLocaleTimeString(Qt.locale(), Locale.ShortFormat)
-      color: "white"
-      font.pixelSize: 12
+      font.pixelSize: M.Appearance.font.pixelSize.textSmall
       Timer {
-        interval: 1000
-        running: true
-        repeat: true
+        interval: 1000; running: true; repeat: true
         onTriggered: parent.text = new Date().toLocaleTimeString(Qt.locale(), Locale.ShortFormat)
       }
     }

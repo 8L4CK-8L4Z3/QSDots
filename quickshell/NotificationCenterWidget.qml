@@ -3,7 +3,8 @@ import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import "modules" as Modules
+import "root:/modules/" as M
+import "root:/modules/widgets/" as W
 
 Window {
   id: notifWindow
@@ -13,78 +14,99 @@ Window {
   Rectangle {
     anchors.fill: parent
     color: Qt.hsla(0, 0, 0, 0.88)
-    radius: 12
+    radius: M.Appearance.rounding.large
 
     ColumnLayout {
       anchors.fill: parent
       anchors.margins: 16
       spacing: 8
 
-      Text {
+      // Header
+      W.StyledText {
         text: "Quick Settings"
-        color: Modules.ThemeEngine.onSurface
-        font.pixelSize: 18
+        font.pixelSize: M.Appearance.font.pixelSize.textMedium
         font.bold: true
       }
 
-      // Toggle tiles grid
+      // Toggle tiles
       GridLayout {
         columns: 4
         columnSpacing: 8
         rowSpacing: 8
         Layout.fillWidth: true
 
-        Modules.TileButton { label: "Wi-Fi"; icon: ""; checked: true }
-        Modules.TileButton { label: "BT"; icon: ""; checked: false }
-        Modules.TileButton { label: "DND"; icon: ""; checked: false }
-        Modules.TileButton { label: "Dark"; icon: ""; checked: true }
-        Modules.TileButton { label: "Blur"; icon: ""; checked: true }
-        Modules.TileButton { label: "Rec"; icon: ""; checked: false }
-        Modules.TileButton { label: "Power"; icon: ""; onClicked: xtdb.openExec("tuned.sh cycle") }
-        Modules.TileButton { label: "Lock"; icon: ""; onClicked: { xtdb.openExec("hyprlock"); notifWindow.visible = false } }
+        M.TileButton { label: "Wi-Fi"; icon: ""; checked: true }
+        M.TileButton { label: "BT"; icon: ""; checked: false }
+        M.TileButton { label: "DND"; icon: ""; checked: false }
+        M.TileButton { label: "Dark"; icon: ""; checked: true }
+        M.TileButton { label: "Blur"; icon: ""; checked: true }
+        M.TileButton { label: "Rec"; icon: ""; checked: false }
+        M.TileButton { label: "Power"; icon: ""; onClicked: xtdb.openExec("tuned.sh cycle") }
+        M.TileButton { label: "Lock"; icon: ""; onClicked: { xtdb.openExec("hyprlock"); notifWindow.visible = false } }
       }
 
-      // Volume slider
+      // Volume
       RowLayout {
         Layout.fillWidth: true; spacing: 8
-        Text { text: ""; color: Modules.ThemeEngine.onSurfaceVariant; font.pixelSize: 14 }
+        W.MaterialSymbol { text: ""; iconSize: M.Appearance.font.pixelSize.textBase }
         Slider {
           id: volumeSlider
           Layout.fillWidth: true; from: 0; to: 100; value: 75
-          background: Rectangle { height: 4; radius: 2; color: Modules.ThemeEngine.surface
-            Rectangle { width: parent.width * volumeSlider.value / volumeSlider.to; height: 4; radius: 2; color: Modules.ThemeEngine.primary }
+          background: Rectangle {
+            height: 4; radius: 2; color: M.Appearance.m3colors.m3layerBackground3
+            Rectangle {
+              width: parent.width * volumeSlider.value / volumeSlider.to
+              height: 4; radius: 2; color: M.Appearance.m3colors.m3accentPrimary
+            }
           }
-          handle: Rectangle { width: 14; height: 14; radius: 7; color: Modules.ThemeEngine.primary; x: parent.width * volumeSlider.value / volumeSlider.to - 7 }
+          handle: Rectangle {
+            width: 14; height: 14; radius: 7
+            color: M.Appearance.m3colors.m3accentPrimary
+            x: parent.width * volumeSlider.value / volumeSlider.to - 7
+          }
         }
       }
+
+      // Brightness
       RowLayout {
         Layout.fillWidth: true; spacing: 8
-        Text { text: ""; color: Modules.ThemeEngine.onSurfaceVariant; font.pixelSize: 14 }
+        W.MaterialSymbol { text: ""; iconSize: M.Appearance.font.pixelSize.textBase }
         Slider {
           id: brightnessSlider
           Layout.fillWidth: true; from: 0; to: 100; value: 80
-          background: Rectangle { height: 4; radius: 2; color: Modules.ThemeEngine.surface
-            Rectangle { width: parent.width * brightnessSlider.value / brightnessSlider.to; height: 4; radius: 2; color: Modules.ThemeEngine.secondary }
+          background: Rectangle {
+            height: 4; radius: 2; color: M.Appearance.m3colors.m3layerBackground3
+            Rectangle {
+              width: parent.width * brightnessSlider.value / brightnessSlider.to
+              height: 4; radius: 2; color: M.Appearance.m3colors.m3accentSecondary
+            }
           }
-          handle: Rectangle { width: 14; height: 14; radius: 7; color: Modules.ThemeEngine.secondary; x: parent.width * brightnessSlider.value / brightnessSlider.to - 7 }
+          handle: Rectangle {
+            width: 14; height: 14; radius: 7
+            color: M.Appearance.m3colors.m3accentSecondary
+            x: parent.width * brightnessSlider.value / brightnessSlider.to - 7
+          }
         }
       }
 
-      Rectangle { Layout.fillWidth: true; height: 1; color: Modules.ThemeEngine.outline }
+      Rectangle { Layout.fillWidth: true; height: 1; color: M.Appearance.m3colors.m3borderSecondary }
 
-      Text { text: "Notifications"; color: Modules.ThemeEngine.onSurface; font.pixelSize: 14; font.bold: true }
+      W.StyledText { text: "Notifications"; font.pixelSize: M.Appearance.font.pixelSize.textSmall; font.bold: true }
       Rectangle {
         Layout.fillWidth: true; Layout.fillHeight: true; color: "transparent"
-        Text { anchors.centerIn: parent; text: "No notifications"; color: Modules.ThemeEngine.onSurfaceVariant }
+        W.StyledText { anchors.centerIn: parent; text: "No notifications"; color: M.Appearance.m3colors.m3secondaryText }
       }
 
       Button {
         Layout.fillWidth: true
-        text: "  Screenshot area"
         highlighted: true
         onClicked: { xtdb.openExec("grim -g \"$(slurp)\" - | satty -f -"); notifWindow.visible = false }
-        contentItem: Text { text: " " + parent.text; color: "white"; horizontalAlignment: Text.AlignHCenter }
-        background: Rectangle { color: Modules.ThemeEngine.primary; radius: 6 }
+        contentItem: W.StyledText {
+          text: "  Screenshot area"
+          horizontalAlignment: Text.AlignHCenter
+          color: M.Appearance.m3colors.m3accentPrimaryText
+        }
+        background: Rectangle { color: M.Appearance.m3colors.m3accentPrimary; radius: M.Appearance.rounding.small }
       }
     }
   }

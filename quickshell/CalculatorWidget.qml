@@ -2,7 +2,8 @@ import Quickshell
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import "modules" as Modules
+import "root:/modules/" as M
+import "root:/modules/widgets/" as W
 
 Window {
   id: calcWindow
@@ -15,7 +16,7 @@ Window {
   Rectangle {
     anchors.fill: parent
     color: Qt.hsla(0, 0, 0, 0.88)
-    radius: 10
+    radius: M.Appearance.rounding.normal
 
     ColumnLayout {
       anchors.fill: parent
@@ -28,10 +29,11 @@ Window {
         height: 48
         readOnly: true
         text: "0"
-        color: "white"
+        color: M.Appearance.m3colors.m3primaryText
         font.pixelSize: 24
+        font.family: M.Appearance.font.family.codeFont
         horizontalAlignment: Text.AlignRight
-        background: Rectangle { color: Modules.ThemeEngine.surfaceVariant; radius: 6 }
+        background: Rectangle { color: M.Appearance.m3colors.m3layerBackground1; radius: M.Appearance.rounding.small }
       }
 
       GridLayout {
@@ -54,6 +56,18 @@ Window {
             }
             highlighted: ["/","*","-","+","="].indexOf(text) >= 0
             onClicked: calcWindow.handleButton(text)
+            font.pixelSize: M.Appearance.font.pixelSize.textMedium
+            background: Rectangle {
+              color: parent.highlighted ? M.Appearance.m3colors.m3accentPrimary : M.Appearance.m3colors.m3layerBackground2
+              radius: M.Appearance.rounding.small
+            }
+            contentItem: Text {
+              text: parent.text
+              color: parent.highlighted ? M.Appearance.m3colors.m3accentPrimaryText : M.Appearance.m3colors.m3primaryText
+              font.pixelSize: parent.font.pixelSize
+              horizontalAlignment: Text.AlignHCenter
+              verticalAlignment: Text.AlignVCenter
+            }
           }
         }
       }
@@ -61,8 +75,14 @@ Window {
       Button {
         Layout.fillWidth: true
         text: "Clear"
-        highlighted: true
         onClicked: { calcDisplay.text = "0"; calcExpr = ""; }
+        contentItem: W.StyledText {
+          text: "Clear"; horizontalAlignment: Text.AlignHCenter
+          color: M.Appearance.m3colors.m3accentPrimaryText
+        }
+        background: Rectangle {
+          color: M.Appearance.m3colors.m3error; radius: M.Appearance.rounding.small
+        }
       }
     }
   }

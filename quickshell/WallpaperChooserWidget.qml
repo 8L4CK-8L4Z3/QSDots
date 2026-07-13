@@ -2,7 +2,8 @@ import Quickshell
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import "modules" as Modules
+import "root:/modules/" as M
+import "root:/modules/widgets/" as W
 
 Window {
   id: wallpaperWindow
@@ -11,32 +12,33 @@ Window {
 
   Rectangle {
     anchors.fill: parent
-    color: Modules.ThemeEngine.surfaceVariant
-    radius: 10
+    color: Qt.hsla(0, 0, 0, 0.88)
+    radius: M.Appearance.rounding.normal
 
     ColumnLayout {
       anchors.fill: parent
       anchors.margins: 16
       spacing: 12
 
-      Text {
+      W.StyledText {
         text: "Wallpaper Chooser"
-        color: Modules.ThemeEngine.onSurface
-        font.pixelSize: 20
+        font.pixelSize: M.Appearance.font.pixelSize.textLarge
         font.bold: true
       }
 
       Rectangle {
         Layout.fillWidth: true
         Layout.fillHeight: true
-        color: Modules.ThemeEngine.surface
-        radius: 8
-        Text {
+        color: M.Appearance.m3colors.m3layerBackground1
+        radius: M.Appearance.rounding.small
+        W.StyledText {
           anchors.centerIn: parent
           text: "Wallpaper grid (coming in Phase 4)"
-          color: Modules.ThemeEngine.onSurfaceVariant
+          color: M.Appearance.m3colors.m3secondaryText
         }
       }
     }
   }
+
+  Keys.onEscapePressed: { wallpaperWindow.visible = false }
 }

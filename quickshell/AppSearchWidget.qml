@@ -2,7 +2,8 @@ import Quickshell
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import "modules" as Modules
+import "root:/modules/" as M
+import "root:/modules/widgets/" as W
 
 Window {
   id: appSearch
@@ -11,9 +12,9 @@ Window {
 
   Rectangle {
     anchors.fill: parent
-    color: Modules.ThemeEngine.surface
-    radius: 8
-    border.color: Modules.ThemeEngine.outline
+    color: M.Appearance.m3colors.m3layerBackground1
+    radius: M.Appearance.rounding.small
+    border.color: M.Appearance.m3colors.m3borderSecondary
     border.width: 1
 
     TextField {
@@ -21,8 +22,9 @@ Window {
       anchors.fill: parent
       anchors.margins: 8
       placeholderText: "Search applications…"
-      color: Modules.ThemeEngine.onSurface
-      font.pixelSize: 16
+      color: M.Appearance.m3colors.m3primaryText
+      font.pixelSize: M.Appearance.font.pixelSize.textMedium
+      font.family: M.Appearance.font.family.uiFont
       background: Rectangle { color: "transparent" }
 
       Keys.onEscapePressed: { appSearch.visible = false }

@@ -2,7 +2,8 @@ import Quickshell
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import "modules" as Modules
+import "root:/modules/" as M
+import "root:/modules/widgets/" as W
 
 Window {
   id: emojiWindow
@@ -12,31 +13,30 @@ Window {
   Rectangle {
     anchors.fill: parent
     color: Qt.hsla(0, 0, 0, 0.88)
-    radius: 10
+    radius: M.Appearance.rounding.normal
 
     ColumnLayout {
       anchors.fill: parent
       anchors.margins: 12
       spacing: 8
 
-      Text {
+      W.StyledText {
         text: "Emoji Picker"
-        color: Modules.ThemeEngine.onSurface
-        font.pixelSize: 16
+        font.pixelSize: M.Appearance.font.pixelSize.textMedium
         font.bold: true
       }
 
       TextField {
         id: emojiSearch
         placeholderText: "Search…"
-        color: "white"
-        font.pixelSize: 14
+        color: M.Appearance.m3colors.m3primaryText
+        font.pixelSize: M.Appearance.font.pixelSize.textBase
+        font.family: M.Appearance.font.family.uiFont
         Layout.fillWidth: true
-        background: Rectangle { color: Modules.ThemeEngine.surfaceVariant; radius: 6 }
+        background: Rectangle { color: M.Appearance.m3colors.m3layerBackground1; radius: M.Appearance.rounding.small }
       }
 
       GridLayout {
-        id: emojiGrid
         columns: 8
         columnSpacing: 4
         rowSpacing: 4
@@ -52,7 +52,6 @@ Window {
             width: 40; height: 40
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-
             MouseArea {
               anchors.fill: parent
               onClicked: {

@@ -3,7 +3,8 @@ import Quickshell.Wayland
 import Quickshell.Hyprland
 import QtQuick
 import QtQuick.Layouts
-import "modules" as Modules
+import "root:/modules/" as M
+import "root:/modules/widgets/" as W
 
 Window {
   id: overviewWindow
@@ -13,17 +14,16 @@ Window {
   Rectangle {
     anchors.fill: parent
     color: Qt.hsla(0, 0, 0, 0.85)
-    radius: 12
+    radius: M.Appearance.rounding.large
 
     ColumnLayout {
       anchors.fill: parent
       anchors.margins: 20
       spacing: 12
 
-      Text {
+      W.StyledText {
         text: "Overview"
-        color: Modules.ThemeEngine.onSurface
-        font.pixelSize: 22
+        font.pixelSize: M.Appearance.font.pixelSize.textLarge
         font.bold: true
       }
 
@@ -39,13 +39,17 @@ Window {
           model: Hyprland.workspaces
 
           Rectangle {
-            id: wsCard
             required property var modelData
             Layout.fillWidth: true
             Layout.fillHeight: true
-            color: modelData.active ? Modules.ThemeEngine.primaryContainer : Modules.ThemeEngine.surfaceVariant
-            radius: 8
-            border.color: modelData.active ? Modules.ThemeEngine.primary : "transparent"
+
+            color: modelData.active
+              ? M.Appearance.m3colors.m3selectionBackground
+              : M.Appearance.m3colors.m3layerBackground2
+            radius: M.Appearance.rounding.small
+            border.color: modelData.active
+              ? M.Appearance.m3colors.m3accentPrimary
+              : "transparent"
             border.width: modelData.active ? 2 : 0
 
             ColumnLayout {
@@ -53,10 +57,9 @@ Window {
               anchors.margins: 8
               spacing: 4
 
-              Text {
+              W.StyledText {
                 text: "WS " + modelData.id
-                color: Modules.ThemeEngine.onSurface
-                font.pixelSize: 14
+                font.pixelSize: M.Appearance.font.pixelSize.textMedium
                 font.bold: true
               }
 
@@ -65,9 +68,7 @@ Window {
                   var wins = [];
                   for (var i = 0; i < Hyprland.clients.length; i++) {
                     var c = Hyprland.clients[i];
-                    if (c.workspace.id === modelData.id) {
-                      wins.push(c);
-                    }
+                    if (c.workspace.id === modelData.id) wins.push(c);
                   }
                   return wins;
                 }
@@ -76,14 +77,12 @@ Window {
                   width: parent.width
                   height: 24
                   color: Qt.hsla(0, 0, 0, 0.3)
-                  radius: 4
-
-                  Text {
+                  radius: M.Appearance.rounding.unsharpen
+                  W.StyledText {
                     anchors.fill: parent
                     anchors.margins: 4
                     text: modelData.title || modelData.class || "?"
-                    color: Modules.ThemeEngine.onSurface
-                    font.pixelSize: 10
+                    font.pixelSize: M.Appearance.font.pixelSize.textSmall
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                   }
@@ -104,15 +103,17 @@ Window {
         }
       }
 
-      // System stats row
       RowLayout {
         Layout.fillWidth: true
         spacing: 16
-        Text { text: "CPU: —"; color: Modules.ThemeEngine.onSurfaceVariant; font.pixelSize: 12 }
-        Text { text: "RAM: —"; color: Modules.ThemeEngine.onSurfaceVariant; font.pixelSize: 12 }
-        Text { text: "GPU: —"; color: Modules.ThemeEngine.onSurfaceVariant; font.pixelSize: 12 }
+        W.StyledText { text: "CPU: —"; font.pixelSize: M.Appearance.font.pixelSize.textSmall; color: M.Appearance.m3colors.m3secondaryText }
+        W.StyledText { text: "RAM: —"; font.pixelSize: M.Appearance.font.pixelSize.textSmall; color: M.Appearance.m3colors.m3secondaryText }
         Item { Layout.fillWidth: true }
-        Text { text: new Date().toLocaleDateString(Qt.locale(), Locale.LongFormat); color: Modules.ThemeEngine.onSurfaceVariant; font.pixelSize: 12 }
+        W.StyledText {
+          text: new Date().toLocaleDateString(Qt.locale(), Locale.LongFormat)
+          font.pixelSize: M.Appearance.font.pixelSize.textSmall
+          color: M.Appearance.m3colors.m3secondaryText
+        }
       }
     }
   }

@@ -1,0 +1,6 @@
+singleton Appearance 1.0 Appearance.qml
+singleton Directories 1.0 Directories.qml
+singleton ThemeEngine 1.0 ThemeEngine.qml
+singleton GlobalStates 1.0 GlobalStates.qml
+TileButton 1.0 TileButton.qml
+Utils 1.0 Utils.qml
