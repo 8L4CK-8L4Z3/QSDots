@@ -40,6 +40,8 @@ zoxide
 jq
 starship
 
+stow
+
 # Screenshots
 grim
 slurp
