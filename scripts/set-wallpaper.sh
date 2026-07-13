@@ -33,6 +33,13 @@ if command -v matugen &>/dev/null; then
     --type scheme-tonal-spot \
     -o "$CONFIG_DIR/quickshell/theme.json" 2>/dev/null || true
 
+  # Hyprland color palette
+  matugen image "$WALLPAPER" \
+    --type scheme-tonal-spot \
+    --template hypr-colors \
+    --output "$CONFIG_DIR/hypr/colors.conf" 2>/dev/null || true
+  sed -i '/^\$color/{s/#//; s/$/ff/}' "$CONFIG_DIR/hypr/colors.conf" 2>/dev/null || true
+
   # GTK theme (matugen built-in or via template)
   if [[ -f "$CONFIG_DIR/matugen/templates/qs-gtk.css" ]]; then
     matugen image "$WALLPAPER" --type scheme-tonal-spot \
