@@ -7,18 +7,16 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 
-# ── Detect AUR helper ──────────────────────────────────────────────────
-AUR=""
-for cmd in yay paru pacman; do
-  if command -v "$cmd" &>/dev/null; then
-    AUR="$cmd"
-    break
-  fi
-done
-if [[ -z "$AUR" ]]; then
-  echo "No package manager found (yay/paru/pacman). Aborting." >&2
-  exit 1
+# ── Bootstrap yay ──────────────────────────────────────────────────────────
+if ! command -v yay &>/dev/null; then
+  echo "yay not found — bootstrapping from AUR..."
+  sudo pacman -S --needed --noconfirm base-devel git go
+  git clone https://aur.archlinux.org/yay.git /tmp/yay-bootstrap
+  (cd /tmp/yay-bootstrap && makepkg -si --noconfirm)
+  rm -rf /tmp/yay-bootstrap
+  echo "yay installed."
 fi
+AUR="yay"
 echo "Using package manager: $AUR"
 
 # ── Parse packages.txt ─────────────────────────────────────────────────
@@ -40,11 +38,7 @@ install_pkgs() {
   local pkgs="$1"
   [[ -z "$pkgs" ]] && return
   echo "  → Installing: $pkgs"
-  if [[ "$AUR" == "pacman" ]]; then
-    sudo pacman -S --needed --noconfirm $pkgs 2>/dev/null || true
-  else
-    "$AUR" -S --needed --noconfirm $pkgs 2>/dev/null || true
-  fi
+  yay -S --needed --noconfirm $pkgs 2>/dev/null || true
 }
 
 prompt_yn() {

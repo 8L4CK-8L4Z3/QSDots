@@ -7,7 +7,7 @@ hyprcursor
 hypridle
 hyprlock
 uwsm
-quickshell
+quickshell-git
 xdg-desktop-portal-hyprland
 matugen
 swww

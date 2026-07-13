@@ -10,21 +10,20 @@ import "root:/modules/" as M
 import "root:/modules/widgets/" as W
 
 ShellRoot {
-  property M.ThemeEngine themeEngine: M.ThemeEngine {}
+  id: shell
 
   Component.onCompleted: {
-    // Initialize theme and config
+    // force ThemeEngine singleton init (starts watching theme.json)
     M.ThemeEngine.reapplyTheme();
 
-    // Register global shortcuts
-    Quickshell.registerGlobalShortcut("quickshell:appSearch", () => { appSearch.visible = !appSearch.visible; });
-    Quickshell.registerGlobalShortcut("quickshell:overviewToggle", () => { overview.visible = !overview.visible; });
-    Quickshell.registerGlobalShortcut("quickshell:notificationCenter", () => { notifCenter.visible = !notifCenter.visible; });
-    Quickshell.registerGlobalShortcut("quickshell:helpMenu", () => { helpMenu.visible = !helpMenu.visible; });
-    Quickshell.registerGlobalShortcut("quickshell:settings", () => { settingsApp.visible = !settingsApp.visible; });
-    Quickshell.registerGlobalShortcut("quickshell:wallpaperPicker", () => { wallpaperChooser.visible = !wallpaperChooser.visible; });
-    Quickshell.registerGlobalShortcut("quickshell:emojiPicker", () => { emojiPicker.visible = !emojiPicker.visible; });
-    Quickshell.registerGlobalShortcut("quickshell:calculator", () => { calculator.visible = !calculator.visible; });
+    Quickshell.registerGlobalShortcut("quickshell:appSearch", shell, () => { appSearch.visible = !appSearch.visible; });
+    Quickshell.registerGlobalShortcut("quickshell:overviewToggle", shell, () => { overview.visible = !overview.visible; });
+    Quickshell.registerGlobalShortcut("quickshell:notificationCenter", shell, () => { notifCenter.visible = !notifCenter.visible; });
+    Quickshell.registerGlobalShortcut("quickshell:helpMenu", shell, () => { helpMenu.visible = !helpMenu.visible; });
+    Quickshell.registerGlobalShortcut("quickshell:settings", shell, () => { settingsApp.visible = !settingsApp.visible; });
+    Quickshell.registerGlobalShortcut("quickshell:wallpaperPicker", shell, () => { wallpaperChooser.visible = !wallpaperChooser.visible; });
+    Quickshell.registerGlobalShortcut("quickshell:emojiPicker", shell, () => { emojiPicker.visible = !emojiPicker.visible; });
+    Quickshell.registerGlobalShortcut("quickshell:calculator", shell, () => { calculator.visible = !calculator.visible; });
   }
 
   // All component instances
