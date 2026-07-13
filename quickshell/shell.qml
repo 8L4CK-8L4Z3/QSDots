@@ -24,6 +24,9 @@ ShellRoot {
     Quickshell.registerGlobalShortcut("quickshell:wallpaperPicker", shell, () => { wallpaperChooser.visible = !wallpaperChooser.visible; });
     Quickshell.registerGlobalShortcut("quickshell:emojiPicker", shell, () => { emojiPicker.visible = !emojiPicker.visible; });
     Quickshell.registerGlobalShortcut("quickshell:calculator", shell, () => { calculator.visible = !calculator.visible; });
+
+    // Connect cross-window signals
+    settingsApp.openWallpaperChooser.connect(() => { wallpaperChooser.visible = true; });
   }
 
   // All component instances

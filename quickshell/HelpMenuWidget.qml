@@ -64,7 +64,7 @@ Window {
 
   function loadKeybinds() {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "../keybinds.json", false);
+    xhr.open("GET", "root:/keybinds.json", false);
     try {
       xhr.send();
       if (xhr.status === 0 || xhr.status === 200) {

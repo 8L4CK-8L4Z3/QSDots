@@ -10,6 +10,8 @@ Window {
   width: 700
   height: 500
 
+  signal openWallpaperChooser()
+
   Rectangle {
     anchors.fill: parent
     color: Qt.hsla(0, 0, 0, 0.88)
@@ -27,7 +29,6 @@ Window {
       }
 
       GroupBox {
-        title: "Theme Profile"
         Layout.fillWidth: true
         label: W.StyledText { text: "Theme Profile"; font.bold: true; color: M.Appearance.m3colors.m3accentPrimary }
 
@@ -35,7 +36,7 @@ Window {
           spacing: 12
           Button {
             text: "caelestia"; highlighted: true
-            onClicked: xtdb.openExec("profiles/switch-profile.sh caelestia")
+            onClicked: M.Utils.openExec("profiles/switch-profile.sh caelestia")
             contentItem: W.StyledText {
               text: parent.text; horizontalAlignment: Text.AlignHCenter
               color: M.Appearance.m3colors.m3accentPrimaryText
@@ -44,7 +45,7 @@ Window {
           }
           Button {
             text: "jakoolit"
-            onClicked: xtdb.openExec("profiles/switch-profile.sh jakoolit")
+            onClicked: M.Utils.openExec("profiles/switch-profile.sh jakoolit")
             contentItem: W.StyledText {
               text: parent.text; horizontalAlignment: Text.AlignHCenter
               color: M.Appearance.m3colors.m3accentPrimary
@@ -58,7 +59,6 @@ Window {
       }
 
       GroupBox {
-        title: "Visual"
         Layout.fillWidth: true
         label: W.StyledText { text: "Visual"; font.bold: true; color: M.Appearance.m3colors.m3accentPrimary }
 
@@ -70,7 +70,7 @@ Window {
             W.StyledText { text: "Blur" }
             Switch {
               checked: true
-              onToggled: xtdb.openExec("hyprctl keyword decoration:blur:enabled " + (checked ? "true" : "false"))
+              onToggled: M.Utils.openExec("hyprctl keyword decoration:blur:enabled " + (checked ? "true" : "false"))
             }
           }
 
@@ -81,8 +81,8 @@ Window {
               id: opacitySlider; Layout.fillWidth: true
               from: 0.5; to: 1.0; value: 0.9; stepSize: 0.05
               onValueChanged: {
-                xtdb.openExec("hyprctl keyword decoration:active_opacity " + value);
-                xtdb.openExec("hyprctl keyword decoration:inactive_opacity " + (value - 0.1));
+                M.Utils.openExec("hyprctl keyword decoration:active_opacity " + value);
+                M.Utils.openExec("hyprctl keyword decoration:inactive_opacity " + (value - 0.1));
               }
               background: Rectangle {
                 height: 4; radius: 2; color: M.Appearance.m3colors.m3layerBackground3
@@ -101,7 +101,6 @@ Window {
       }
 
       GroupBox {
-        title: "Wallpaper"
         Layout.fillWidth: true
         label: W.StyledText { text: "Wallpaper"; font.bold: true; color: M.Appearance.m3colors.m3accentPrimary }
 
@@ -109,7 +108,7 @@ Window {
           spacing: 12
           Button {
             text: "Randomize"; highlighted: true
-            onClicked: xtdb.openExec("~/.config/scripts/set-wallpaper.sh ~/Pictures/Wallpapers/$(ls ~/Pictures/Wallpapers/ | shuf -n1)")
+            onClicked: M.Utils.openExec("~/.config/scripts/set-wallpaper.sh ~/Pictures/Wallpapers/$(ls ~/Pictures/Wallpapers/ | shuf -n1)")
             contentItem: W.StyledText {
               text: parent.text; horizontalAlignment: Text.AlignHCenter
               color: M.Appearance.m3colors.m3accentPrimaryText
@@ -118,7 +117,7 @@ Window {
           }
           Button {
             text: "Open chooser"
-            onClicked: { settingsWindow.visible = false; wallpaperChooser.visible = true }
+            onClicked: { settingsWindow.visible = false; openWallpaperChooser() }
             contentItem: W.StyledText {
               text: parent.text; horizontalAlignment: Text.AlignHCenter
               color: M.Appearance.m3colors.m3accentPrimary

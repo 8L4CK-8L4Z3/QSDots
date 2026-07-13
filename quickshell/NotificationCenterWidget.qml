@@ -35,20 +35,20 @@ Window {
         rowSpacing: 8
         Layout.fillWidth: true
 
-        M.TileButton { label: "Wi-Fi"; icon: ""; checked: true }
-        M.TileButton { label: "BT"; icon: ""; checked: false }
-        M.TileButton { label: "DND"; icon: ""; checked: false }
-        M.TileButton { label: "Dark"; icon: ""; checked: true }
-        M.TileButton { label: "Blur"; icon: ""; checked: true }
-        M.TileButton { label: "Rec"; icon: ""; checked: false }
-        M.TileButton { label: "Power"; icon: ""; onClicked: xtdb.openExec("tuned.sh cycle") }
-        M.TileButton { label: "Lock"; icon: ""; onClicked: { xtdb.openExec("hyprlock"); notifWindow.visible = false } }
+        M.TileButton { label: "Wi-Fi"; icon: "\uF087"; checked: true }
+        M.TileButton { label: "BT"; icon: "\uF293"; checked: false }
+        M.TileButton { label: "DND"; icon: "\uF1F6"; checked: false }
+        M.TileButton { label: "Dark"; icon: "\uF186"; checked: true }
+        M.TileButton { label: "Blur"; icon: "\uF0C2"; checked: true }
+        M.TileButton { label: "Rec"; icon: "\uF03D"; checked: false }
+        M.TileButton { label: "Power"; icon: "\uF0E7"; onClicked: M.Utils.openExec("tuned.sh cycle") }
+        M.TileButton { label: "Lock"; icon: "\uF023"; onClicked: { M.Utils.openExec("hyprlock"); notifWindow.visible = false } }
       }
 
       // Volume
       RowLayout {
         Layout.fillWidth: true; spacing: 8
-        W.MaterialSymbol { text: ""; iconSize: M.Appearance.font.pixelSize.textBase }
+        W.MaterialSymbol { text: "\uF028"; iconSize: M.Appearance.font.pixelSize.textBase }
         Slider {
           id: volumeSlider
           Layout.fillWidth: true; from: 0; to: 100; value: 75
@@ -70,7 +70,7 @@ Window {
       // Brightness
       RowLayout {
         Layout.fillWidth: true; spacing: 8
-        W.MaterialSymbol { text: ""; iconSize: M.Appearance.font.pixelSize.textBase }
+        W.MaterialSymbol { text: "\uF185"; iconSize: M.Appearance.font.pixelSize.textBase }
         Slider {
           id: brightnessSlider
           Layout.fillWidth: true; from: 0; to: 100; value: 80
@@ -100,9 +100,9 @@ Window {
       Button {
         Layout.fillWidth: true
         highlighted: true
-        onClicked: { xtdb.openExec("grim -g \"$(slurp)\" - | satty -f -"); notifWindow.visible = false }
+        onClicked: { M.Utils.openExec("grim -g \"$(slurp)\" - | satty -f -"); notifWindow.visible = false }
         contentItem: W.StyledText {
-          text: "  Screenshot area"
+          text: "\uF030  Screenshot area"
           horizontalAlignment: Text.AlignHCenter
           color: M.Appearance.m3colors.m3accentPrimaryText
         }

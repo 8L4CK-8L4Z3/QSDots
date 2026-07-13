@@ -28,7 +28,7 @@ Window {
 
       TextField {
         id: emojiSearch
-        placeholderText: "Search…"
+        placeholderText: "Search\u2026"
         color: M.Appearance.m3colors.m3primaryText
         font.pixelSize: M.Appearance.font.pixelSize.textBase
         font.family: M.Appearance.font.family.uiFont
@@ -55,7 +55,7 @@ Window {
             MouseArea {
               anchors.fill: parent
               onClicked: {
-                xtdb.openExec("wl-copy " + parent.text);
+                M.Utils.openExec("wl-copy " + parent.text);
                 emojiWindow.visible = false;
               }
             }

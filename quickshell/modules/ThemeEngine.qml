@@ -37,19 +37,10 @@ Singleton {
         }
     }
 
-    Timer {
-        id: delayedFileRead
-        interval: 50
-        repeat: false
-        running: false
-        onTriggered: { root.applyColors(themeFileView.text()); }
-    }
-
     FileView {
         id: themeFileView
         path: Qt.resolvedUrl(root.filePath)
         watchChanges: true
-        onFileChanged: { this.reload(); delayedFileRead.start(); }
         onLoadedChanged: { root.applyColors(themeFileView.text()); }
         onLoadFailed: { console.log("[ThemeEngine] theme.json not found — using fallback colors"); }
     }

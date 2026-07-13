@@ -8,7 +8,6 @@ import "root:/modules/" as M
 Text {
     id: root
     property real iconSize: M.Appearance.font.pixelSize.textBase
-    property real fill: 0
     renderType: Text.NativeRendering
     font.hintingPreference: Font.PreferFullHinting
     verticalAlignment: Text.AlignVCenter
